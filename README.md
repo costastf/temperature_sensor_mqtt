@@ -65,7 +65,7 @@ Required tools:
     ampy put main.py 
     ampy put boot.py 
 
-# Cheching output
+# Checking output
 
    On an ubuntu box you can install mosquitto clients with:
     

@@ -38,9 +38,9 @@ def main():
         print('sleeping deeply for {} seconds'.format(submit_interval))
         # deep sleep argument in microseconds
         esp.deepsleep(submit_interval * 1000000)
-    except Exception:
-        print(('Caught exception, '
-               'resetting in {} seconds...').format(exception_timeout))
+    except Exception as e:
+        print(('Caught exception, {}'
+               'resetting in {} seconds...').format(e, exception_timeout))
         time.sleep(exception_timeout)
         machine.reset()
 

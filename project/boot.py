@@ -25,37 +25,40 @@ import ubinascii
 import machine
 from drivers import SHT30
 
+
+def network_setup(configuration):
+    ssid = configuration.get('network_ssid')
+    password = configuration.get('network_password')
+    network_reset_timeout = configuration.get('network_reset_timeout')
+    wifi = network.WLAN(network.STA_IF)
+    wifi.active(True)
+    wifi.connect(ssid, password)
+    seconds = 0
+    print('Waiting for network "{}"'.format(ssid))
+    while not wifi.isconnected():
+        time.sleep(1)
+        seconds += 1
+        print('.')
+        if seconds == network_reset_timeout:
+            print(('No network for {} seconds, '
+                   'reseting...').format(network_reset_timeout))
+            machine.reset()
+    ip, netmask, gateway, dns = wifi.ifconfig()
+    report = ('Network connected',
+              'IP address :{}'.format(ip),
+              'Netmask :{}'.format(netmask),
+              'Gateway :{}'.format(gateway),
+              'DNS :{}'.format(dns))
+    print('\n'.join(report))
+
+
 gc.collect()
 # load configuration
 configuration = ujson.loads(open('configuration.json').read())
-ssid = configuration.get('network_ssid')
-password = configuration.get('network_password')
+network_setup(configuration)
+
 mqtt_server_ip = configuration.get('mqtt_server_ip')
 client_id = ubinascii.hexlify(machine.unique_id())
-
-
-# network initializing
-network_reset_timeout = configuration.get('network_reset_timeout')
-wifi = network.WLAN(network.STA_IF)
-wifi.active(True)
-wifi.connect(ssid, password)
-seconds = 0
-print('Waiting for network "{}"'.format(ssid))
-while not wifi.isconnected():
-    time.sleep(1)
-    seconds += 1
-    print('.',)
-    if seconds == network_reset_timeout:
-        print(('No network for {} seconds, '
-               'reseting...').format(network_reset_timeout))
-        machine.reset()
-ip, netmask, gateway, dns = wifi.ifconfig()
-report = ('Network connected',
-          'IP address :{}'.format(ip),
-          'Netmask :{}'.format(netmask),
-          'Gateway :{}'.format(gateway),
-          'DNS :{}'.format(dns))
-print('\n'.join(report))
 
 # sensor intializing
 sensor = SHT30()

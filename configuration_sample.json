@@ -1,9 +1,0 @@
-{
-  "network_ssid": "NETWORK_SSID",
-  "network_password": "NETWORK_PASSWORD",
-  "submit_interval": "INTEGER_TO_REFRESH_VALUES",
-  "mqtt_server_ip": "MQTT_SERVER_IP",
-  "topic": "TOPIC",
-  "network_reset_timeout": "SECONDS",
-  "exception_reset_timeout": "SECONDS"
-}
