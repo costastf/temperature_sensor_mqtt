@@ -20,12 +20,15 @@ import ujson
 import esp
 import time
 import machine
+import ubinascii
 
 
 def main():
     topic = configuration.get('topic')
     submit_interval = configuration.get('submit_interval')
     exception_timeout = configuration.get('exception_reset_timeout')
+    mqtt_server_ip = configuration.get('mqtt_server_ip')
+    client_id = ubinascii.hexlify(machine.unique_id())
     try:
         client = MQTTClient(client_id, mqtt_server_ip)
         client.connect()

@@ -21,7 +21,6 @@ import network
 import time
 import ujson
 import gc
-import ubinascii
 import machine
 from drivers import SHT30
 
@@ -56,9 +55,6 @@ gc.collect()
 # load configuration
 configuration = ujson.loads(open('configuration.json').read())
 network_setup(configuration)
-
-mqtt_server_ip = configuration.get('mqtt_server_ip')
-client_id = ubinascii.hexlify(machine.unique_id())
 
 # sensor intializing
 sensor = SHT30()
