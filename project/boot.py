@@ -55,9 +55,3 @@ gc.collect()
 # load configuration
 configuration = ujson.loads(open('configuration.json').read())
 network_setup(configuration)
-
-# sensor intializing
-sensor = SHT30()
-while not sensor.is_present():
-    time.sleep(1)
-print('Sensor active')

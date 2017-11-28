@@ -22,6 +22,12 @@ import time
 import machine
 import ubinascii
 
+# sensor intializing
+sensor = SHT30()
+while not sensor.is_present():
+    time.sleep(1)
+print('Sensor active')
+
 
 def main():
     topic = configuration.get('topic')
@@ -46,6 +52,7 @@ def main():
                'resetting in {} seconds...').format(e, exception_timeout))
         time.sleep(exception_timeout)
         machine.reset()
+
 
 if __name__ == '__main__':
     main()
